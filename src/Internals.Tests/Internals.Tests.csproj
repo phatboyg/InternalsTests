@@ -38,23 +38,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internals\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Caching\GenericCloser_Specs.cs" />
-    <Compile Include="Internals\Caching\Cache.cs" />
-    <Compile Include="Internals\Caching\CacheItemCallback.cs" />
-    <Compile Include="Internals\Caching\ConcurrentCache.cs" />
-    <Compile Include="Internals\Caching\DictionaryCache.cs" />
-    <Compile Include="Internals\Caching\GenericTypeCache.cs" />
-    <Compile Include="Internals\Caching\KeySelector.cs" />
-    <Compile Include="Internals\Caching\MissingValueProvider.cs" />
-    <Compile Include="Internals\Caching\ReadCache.cs" />
-    <Compile Include="Internals\Caching\ReaderWriterLockedCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
