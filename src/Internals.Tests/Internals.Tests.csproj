@@ -31,17 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Caching\GenericCloser_Specs.cs" />
+    <Compile Include="Internals\Caching\Cache.cs" />
+    <Compile Include="Internals\Caching\CacheItemCallback.cs" />
+    <Compile Include="Internals\Caching\ConcurrentCache.cs" />
+    <Compile Include="Internals\Caching\DictionaryCache.cs" />
+    <Compile Include="Internals\Caching\GenericTypeCache.cs" />
+    <Compile Include="Internals\Caching\KeySelector.cs" />
+    <Compile Include="Internals\Caching\MissingValueProvider.cs" />
+    <Compile Include="Internals\Caching\ReadCache.cs" />
+    <Compile Include="Internals\Caching\ReaderWriterLockedCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
