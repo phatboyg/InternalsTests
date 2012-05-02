@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\TimeSpan_Specs.cs" />
     <Compile Include="Internals\**\*.cs" />
   </ItemGroup>
   <ItemGroup>
