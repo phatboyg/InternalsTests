@@ -42,7 +42,9 @@
     <Compile Include="Extensions\TypeExtensionGeneric_Specs.cs" />
     <Compile Include="Extensions\TimeSpan_Specs.cs" />
     <Compile Include="Extensions\TypeExtension_Specs.cs" />
+    <Compile Include="Extensions\TypeProperty_Specs.cs" />
     <Compile Include="Internals\**\*.cs" />
+    <Compile Include="Reflection\FastProperty_Specs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\GenericCloser_Specs.cs" />

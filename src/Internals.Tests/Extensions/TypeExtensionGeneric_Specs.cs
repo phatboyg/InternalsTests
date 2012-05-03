@@ -52,6 +52,26 @@ namespace Internals.Tests.Extensions
         }
 
         [Test]
+        public void Should_not_close_nested_open_generic_base_class()
+        {
+            Assert.IsFalse(typeof(SuperGenericBaseClass<>).ClosesType(typeof(GenericBaseClass<>)));
+        }
+
+        [Test]
+        public void Should_not_close_nested_open_generic_interface_in_base_class()
+        {
+            Assert.IsFalse(typeof(SuperGenericBaseClass<>).ClosesType(typeof(IGeneric<>)));
+        }
+
+        [Test]
+        public void Should_not_have_closing_arguments_for_a_class_that_isnt_closed()
+        {
+            var types = typeof(SuperGenericBaseClass<>).GetClosingArguments(typeof(IGeneric<>));
+
+            Assert.AreEqual(0, types.Count());
+        }
+
+        [Test]
         public void Should_close_generic_type()
         {
             Assert.IsTrue(typeof(GenericClass).ClosesType(typeof(IGeneric<>)));
@@ -68,6 +88,11 @@ namespace Internals.Tests.Extensions
 
         class SubClass :
             GenericClass
+        {
+        }
+
+        class SuperGenericBaseClass<T> :
+            GenericBaseClass<T>
         {
         }
 
