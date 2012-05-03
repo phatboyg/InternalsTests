@@ -45,6 +45,18 @@ namespace Internals.Tests.Extensions
             Assert.AreEqual(typeof(int), types.First());
         }
 
+        [Test]
+        public void Should_not_close_open_generic_type()
+        {
+            Assert.IsFalse(typeof(GenericBaseClass<>).ClosesType(typeof(IGeneric<>)));
+        }
+
+        [Test]
+        public void Should_close_generic_type()
+        {
+            Assert.IsTrue(typeof(GenericClass).ClosesType(typeof(IGeneric<>)));
+        }
+
         interface IGeneric<T>
         {
         }

@@ -113,6 +113,12 @@ namespace Internals.Tests.Extensions
             Assert.AreEqual(typeof(string), types[0]);
         }
 
+        [Test]
+        public void Should_not_close_open_generic()
+        {
+            Assert.IsFalse(typeof(ISingleGeneric<>).ClosesType(typeof(ISingleGeneric<>)));
+        }
+
         class SingleNestedGeneric :
             List<string>
         {
