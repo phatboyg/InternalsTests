@@ -44,6 +44,7 @@
     <Compile Include="Extensions\TypeExtension_Specs.cs" />
     <Compile Include="Extensions\TypeProperty_Specs.cs" />
     <Compile Include="Internals\**\*.cs" />
+    <Compile Include="Primitives\Enumeration_Specs.cs" />
     <Compile Include="Reflection\FastProperty_Specs.cs" />
   </ItemGroup>
   <ItemGroup>
