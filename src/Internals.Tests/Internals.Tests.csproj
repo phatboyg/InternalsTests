@@ -46,6 +46,8 @@
     <Compile Include="Internals\**\*.cs" />
     <Compile Include="Primitives\Enumeration_Specs.cs" />
     <Compile Include="Reflection\FastProperty_Specs.cs" />
+    <Compile Include="Reflection\ComponentFactoryGreedy_Specs.cs" />
+    <Compile Include="Reflection\ComponentFactory_Specs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\GenericCloser_Specs.cs" />
