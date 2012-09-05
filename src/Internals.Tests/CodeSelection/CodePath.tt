@@ -1,0 +1,156 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension="cs" #>
+<#@ assembly  name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+namespace Internals.Conditional
+{
+    using System;
+
+    interface Mode
+    {
+        bool Enabled { get; }
+    }
+
+    static class CodePath<T>
+        where T : class, Mode, new()
+    {
+        // ReSharper disable StaticFieldInGenericType
+        static Mode _flag;
+        // ReSharper restore StaticFieldInGenericType
+
+        static Mode Flag
+        {
+            get { return _flag ?? (_flag = new T()); }
+        }
+
+        public static void Set(Mode flag)
+        {
+            _flag = flag;
+        }
+
+        public static void Enable()
+        {
+            _flag = new Enabled();
+        }
+
+        public static void Disable()
+        {
+            _flag = new Disabled();
+        }
+
+        class Disabled :
+            Mode
+        {
+            bool Mode.Enabled
+            {
+                get { return false; }
+            }
+        }
+
+        class Enabled :
+            Mode
+        {
+            bool Mode.Enabled
+            {
+                get { return true; }
+            }
+        }
+
+        public static void If(Action enabledMethod)
+        {
+            if (Flag.Enabled)
+                enabledMethod();
+        }    
+
+        public static void Unless(Action disabledMethod)
+        {
+            if (!Flag.Enabled)
+                disabledMethod();
+        }    
+
+        public static void If(Action enabledMethod, Action disabledMethod)
+        {
+            if (Flag.Enabled)
+                enabledMethod();
+            else
+                disabledMethod();
+        }    
+
+<# for(int i=1; i<=16; i++){
+    var tActionArgs = String.Join(",",Enumerable.Range(1,i).Select(it=>String.Format("T{0}",it)));
+    var tMethodArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format(", T{0} arg{0}",it)));
+    var tCallArgs = String.Join(", ", Enumerable.Range(1,i).Select(it=>String.Format("arg{0}",it)));
+#>
+        public static void If<<#=tActionArgs#>>(Action<<#=tActionArgs#>> enabledMethod<#=tMethodArgs#>)
+        {
+            if (Flag.Enabled)
+                enabledMethod(<#=tCallArgs#>);
+        }    
+
+        public static void Unless<<#=tActionArgs#>>(Action<<#=tActionArgs#>> disabledMethod<#=tMethodArgs#>)
+        {
+            if (!Flag.Enabled)
+                disabledMethod(<#=tCallArgs#>);
+        }    
+
+        public static void If<<#=tActionArgs#>>(Action<<#=tActionArgs#>> enabledMethod, Action<<#=tActionArgs#>> disabledMethod<#=tMethodArgs#>)
+        {
+            if (Flag.Enabled)
+                enabledMethod(<#=tCallArgs#>);
+            else
+                disabledMethod(<#=tCallArgs#>);
+        }    
+        
+<# 
+    }
+#>
+
+        public static T Iff<T>(Func<T> enabledFunction, Func<T> disabledFunction)
+        {
+            if (Flag.Enabled)
+                return enabledFunction();
+
+            return disabledFunction();
+        }    
+
+<# for(int i=1; i<=16; i++){
+    var tActionArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format("T{0}, ",it)));
+    var tMethodArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format(", T{0} arg{0}",it)));
+    var tCallArgs = String.Join(", ", Enumerable.Range(1,i).Select(it=>String.Format("arg{0}",it)));
+#>
+        public static T Iff<<#=tActionArgs#>T>(Func<<#=tActionArgs#>T> enabledFunction, Func<<#=tActionArgs#>T> disabledFunction<#=tMethodArgs#>)
+        {
+            if (Flag.Enabled)
+                return enabledFunction(<#=tCallArgs#>);
+
+            return disabledFunction(<#=tCallArgs#>);
+        }    
+        
+<# 
+    }
+#>
+
+<# for(int i=1; i<=16; i++){
+    var tActionArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format("T{0}, ",it)));
+    var tInArgs = String.Concat(Enumerable.Range(1,i-1).Select(it=>String.Format("in T{0}, ",it)));
+    var tOutArg = String.Format("T{0}",i);
+    var tInMethodArgs = String.Concat(Enumerable.Range(1,i-1).Select(it=>String.Format("T{0} arg{0}, ",it)));
+    var tOutMethodArg = String.Format("out T{0} arg{0}",i);
+    var tInCallArgs = String.Concat(Enumerable.Range(1,i-1).Select(it=>String.Format("arg{0}, ",it)));
+    var tOutCallArg = String.Format("out arg{0}",i);
+#>
+        public delegate T OFunc<<#=tInArgs#><#=tOutArg#>, out T>(<#=tInMethodArgs#><#=tOutMethodArg#>);
+
+        public static T Iff<<#=tActionArgs#>T>(OFunc<<#=tActionArgs#>T> enabledFunction, OFunc<<#=tActionArgs#>T> disabledFunction, <#=tInMethodArgs#><#=tOutMethodArg#>)
+        {
+            if (Flag.Enabled)
+                return enabledFunction(<#=tInCallArgs#><#=tOutCallArg#>);
+
+            return disabledFunction(<#=tInCallArgs#><#=tOutCallArg#>);
+        }    
+        
+<# 
+    }
+#>
+    }
+}
