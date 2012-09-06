@@ -26,6 +26,14 @@
             // setting it used a custom type
 //            CodePath<DebugMode>.Set(new EnvironmentMode("DebugMode"));
 
+            CodePath<ParallelMode>.If(() =>
+                {
+                    /* run in parallel */
+                }, () =>
+                    {
+                        /* run single-threaded */
+                    });
+
 
             Dictionary<int, string> dictionary = new Dictionary<int, string>();
 
@@ -51,6 +59,15 @@
         int PreferredRate(int input)
         {
             return input*15;
+        }
+    }
+
+    class ParallelMode :
+        Mode
+    {
+        public bool Enabled
+        {
+            get { return Environment.ProcessorCount > 1; }
         }
     }
 
