@@ -12,12 +12,16 @@ namespace Internals.Tests.Reflection
         public void Should_be_able_to_access_a_private_setter()
         {
             var instance = new PrivateSetter();
-
+#if !NETFX_CORE
             PropertyInfo property = instance.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(x => x.Name == "Name")
                 .First();
-
+#else
+            PropertyInfo property = instance.GetType()
+                .GetTypeInfo()
+                .GetDeclaredProperty("Name");
+#endif
 
             var fastProperty = new ReadWriteProperty<PrivateSetter>(property, true);
 
