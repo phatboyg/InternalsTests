@@ -80,7 +80,10 @@ namespace Internals.Conditional
     var tActionArgs = String.Join(",",Enumerable.Range(1,i).Select(it=>String.Format("T{0}",it)));
     var tMethodArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format(", T{0} arg{0}",it)));
     var tCallArgs = String.Join(", ", Enumerable.Range(1,i).Select(it=>String.Format("arg{0}",it)));
+    var tOpen = (i > 1) ? "#if !NET35" : "";
+    var tClose = (i > 1) ? "#endif" : "";
 #>
+<#=tOpen#>
         public static void If<<#=tActionArgs#>>(Action<<#=tActionArgs#>> enabledMethod<#=tMethodArgs#>)
         {
             if (Flag.Enabled)
@@ -100,7 +103,7 @@ namespace Internals.Conditional
             else
                 disabledMethod(<#=tCallArgs#>);
         }    
-        
+<#=tClose#>
 <# 
     }
 #>
@@ -117,7 +120,10 @@ namespace Internals.Conditional
     var tActionArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format("T{0}, ",it)));
     var tMethodArgs = String.Concat(Enumerable.Range(1,i).Select(it=>String.Format(", T{0} arg{0}",it)));
     var tCallArgs = String.Join(", ", Enumerable.Range(1,i).Select(it=>String.Format("arg{0}",it)));
+    var tOpen = (i > 1) ? "#if !NET35" : "";
+    var tClose = (i > 1) ? "#endif" : "";
 #>
+<#=tOpen#>
         public static T Iff<<#=tActionArgs#>T>(Func<<#=tActionArgs#>T> enabledFunction, Func<<#=tActionArgs#>T> disabledFunction<#=tMethodArgs#>)
         {
             if (Flag.Enabled)
@@ -125,7 +131,7 @@ namespace Internals.Conditional
 
             return disabledFunction(<#=tCallArgs#>);
         }    
-        
+<#=tClose#>
 <# 
     }
 #>
@@ -139,7 +145,11 @@ namespace Internals.Conditional
     var tInCallArgs = String.Concat(Enumerable.Range(1,i-1).Select(it=>String.Format("arg{0}, ",it)));
     var tOutCallArg = String.Format("out arg{0}",i);
 #>
+#if !NET35
         public delegate T OFunc<<#=tInArgs#><#=tOutArg#>, out T>(<#=tInMethodArgs#><#=tOutMethodArg#>);
+#else
+        public delegate T OFunc<<#=tInArgs.Replace("in ", "")#><#=tOutArg#>, T>(<#=tInMethodArgs#><#=tOutMethodArg#>);
+#endif
 
         public static T Iff<<#=tActionArgs#>T>(OFunc<<#=tActionArgs#>T> enabledFunction, OFunc<<#=tActionArgs#>T> disabledFunction, <#=tInMethodArgs#><#=tOutMethodArg#>)
         {
