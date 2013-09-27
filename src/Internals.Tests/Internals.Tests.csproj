@@ -43,6 +43,8 @@
     <Compile Include="Candidates\Candidate_Specs.cs" />
     <Compile Include="Primitives\Load_Specs.cs" />
     <Compile Include="Primitives\SampleData.cs" />
+    <Compile Include="Reflection\DictionaryToObject_Specs.cs" />
+    <Compile Include="Reflection\ObjectToDictionary_Specs.cs" />
     <Compile Include="Reflection\StaticProperty_Specs.cs" />
     <None Include="CodeSelection\CodePath.cs">
       <AutoGen>True</AutoGen>
