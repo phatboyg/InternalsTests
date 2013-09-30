@@ -48,6 +48,19 @@
         }
 
         [Test]
+        public void Should_include_the_list_of_sub_values()
+        {
+            Assert.IsNotNull(_values.ListOfSubValues);
+            Assert.AreEqual(2, _values.ListOfSubValues.Count);
+
+            Assert.AreEqual("A", _values.ListOfSubValues[0].A);
+            Assert.AreEqual("B", _values.ListOfSubValues[0].B);
+
+            Assert.AreEqual("1", _values.ListOfSubValues[1].A);
+            Assert.AreEqual("2", _values.ListOfSubValues[1].B);
+        }
+
+        [Test]
         public void Should_include_the_sub_value()
         {
             Assert.IsNotNull(_values.SubValue);
@@ -67,6 +80,18 @@
 
             Assert.AreEqual("1", _values.SubValues[1].A);
             Assert.AreEqual("2", _values.SubValues[1].B);
+        }
+
+        [Test]
+        public void Should_include_the_bag_of_dicts()
+        {
+            Assert.IsNotNull(_values.BagOfDicts);
+            Assert.AreEqual(2, _values.BagOfDicts.Count);
+
+            Assert.IsTrue(_values.BagOfDicts.ContainsKey("First"));
+            Assert.AreEqual("One", _values.BagOfDicts["First"]);
+            Assert.IsTrue(_values.BagOfDicts.ContainsKey("Second"));
+            Assert.AreEqual("Two", _values.BagOfDicts["Second"]);
         }
 
         IDictionary<string, object> _dictionary;
@@ -90,7 +115,7 @@
                                 {"B", "B"}
                             }
                     },
-                    {"StringValues", new[] {"A", "B", "C"}},
+                    {"StringValues", new object[] {"A", "B", "C"}},
                     {
                         "SubValues", new object[]
                             {
@@ -106,6 +131,29 @@
                                     }
                             }
                     },
+                    {
+                        "ListOfSubValues", new object[]
+                            {
+                                new Dictionary<string, object>
+                                    {
+                                        {"A", "A"},
+                                        {"B", "B"}
+                                    },
+                                new Dictionary<string, object>
+                                    {
+                                        {"A", "1"},
+                                        {"B", "2"}
+                                    }
+                            }
+                    },
+                    {
+                        "BagOfDicts", new object[]
+                            {
+                                new object[]{ "First", "One"},
+                                new object[]{ "Second", "Two"},
+                                
+                            }
+                    }
                 };
 
 
@@ -127,6 +175,8 @@
             SubValue SubValue { get; }
             string[] StringValues { get; }
             SubValue[] SubValues { get; }
+            IList<SubValue> ListOfSubValues { get; }
+            IDictionary<string, string> BagOfDicts { get; }
         }
 
 
